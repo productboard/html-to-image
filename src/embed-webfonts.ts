@@ -210,7 +210,8 @@ function getUsedFonts(node: HTMLElement) {
   const fonts = new Set<string>()
   function traverse(node: HTMLElement) {
     const fontFamily =
-      node.style.fontFamily || getComputedStyle(node).fontFamily
+      node.style.getPropertyValue('font-family') ||
+      getComputedStyle(node).getPropertyValue('font-family')
     fontFamily.split(',').forEach((font) => {
       fonts.add(normalizeFontFamily(font))
     })
@@ -234,7 +235,9 @@ export async function getWebFontCSS<T extends HTMLElement>(
   const cssTexts = await Promise.all(
     rules
       .filter((rule) =>
-        usedFonts.has(normalizeFontFamily(rule.style.fontFamily)),
+        usedFonts.has(
+          normalizeFontFamily(rule.style.getPropertyValue('font-family')),
+        ),
       )
       .map((rule) => {
         const baseUrl = rule.parentStyleSheet
