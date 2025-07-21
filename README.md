@@ -1,29 +1,26 @@
-<h1 align="center">html-to-image</h1>
+**This plugin is a fork of [html-to-image](https://github.com/bubkoo/html-to-image)** with some patches applied on top. This fork isn't distributed in any of the package repositories.
 
-<p align="center"><strong>✂️ Generates an image from a DOM node using HTML5 canvas and SVG.</strong></p>
+# html-to-image
 
-<p align="center">Fork from <a href="https://github.com/tsayen/dom-to-image" rel="nofollow">dom-to-image</a> with more maintainable code and some new features.</p>
+✂️ Generates an image from a DOM node using HTML5 canvas and SVG.
 
-<p align="center">
-<a href="https://github.com/bubkoo/html-to-image/actions/workflows/ci.yml"><img alt="build" src="https://img.shields.io/github/actions/workflow/status/bubkoo/html-to-image/ci.yml?branch=master&logo=github&style=for-the-badge"></a>
-<a href="https://app.codecov.io/gh/bubkoo/html-to-image"><img alt="coverage" src="https://img.shields.io/codecov/c/gh/bubkoo/html-to-image?logo=codecov&style=for-the-badge&token=BWweeU2uNX"></a>
-<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Package" src="https://img.shields.io/npm/v/html-to-image.svg?logo=npm&style=for-the-badge" /></a>
-<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Downloads" src="http://img.shields.io/npm/dm/html-to-image.svg?logo=npm&style=for-the-badge" /></a>
-
-
-</p>
-
-<p align="center">
-<a href="/LICENSE"><img src="https://img.shields.io/github/license/bubkoo/html-to-image?style=for-the-badge" alt="MIT License"></a>
-<a href="https://www.typescriptlang.org"><img alt="Language" src="https://img.shields.io/badge/language-TypeScript-blue.svg?style=for-the-badge"></a>
-<a href="https://github.com/bubkoo/html-to-image/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge"></a>
-</p>
+Fork from dom-to-image with more maintainable code and some new features.
 
 ## Install
 
-```shell
-npm install --save html-to-image
+Point to repository in yout `package.json` file:
+
+```json
+{
+  "dependencies": {
+    "@productboard/html-to-image": "productboard/html-to-image#vX.X.X"
+  }
+}
 ```
+
+Where `X.X.X` should be replaced with tagged version, see [latest tag here](https://github.com/productboard/html-to-image/tags).
+
+Run `pnpm i`.
 
 ## Usage
 
