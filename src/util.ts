@@ -195,10 +195,12 @@ export function canvasToBlob(
 export function createImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image()
-    img.onload = () => {
-      img.decode().then(() => {
+    img.onload = async () => {
+      try {
+        await img.decode()
+      } finally {
         requestAnimationFrame(() => resolve(img))
-      })
+      }
     }
     img.onerror = reject
     img.crossOrigin = 'anonymous'

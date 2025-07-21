@@ -66,9 +66,14 @@ async function embedImageNode<T extends HTMLElement | SVGImageElement>(
       : reject
 
     const image = clonedNode as HTMLImageElement
-    if (image.decode) {
-      image.decode = resolve as any
+    image.onload = async () => {
+      try {
+        await image.decode()
+      } finally {
+        requestAnimationFrame(resolve)
+      }
     }
+    image.decoding = 'sync'
 
     if (image.loading === 'lazy') {
       image.loading = 'eager'
