@@ -101,4 +101,9 @@ export interface Options {
    * An event handler for the error event when any image in html has problem with loading.
    */
   onImageErrorHandler?: OnErrorEventHandler
+
+  /**
+   * Called when a source svg used for rasterization is created.
+   */
+  onSourceDataUrlDone?: (sourceDataUrl: string) => void
 }

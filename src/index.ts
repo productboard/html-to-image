@@ -26,6 +26,8 @@ export async function toSvg<T extends HTMLElement>(
   await embedImages(clonedNode, options)
   applyStyle(clonedNode, options)
   const datauri = await nodeToDataURL(clonedNode, width, height)
+  options.onSourceDataUrlDone?.(datauri)
+
   return datauri
 }
 
