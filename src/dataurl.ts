@@ -96,14 +96,7 @@ export async function resourceToDataURL(
   } catch (error) {
     dataURL = options.imagePlaceholder || ''
 
-    let msg = `Failed to fetch resource: ${resourceUrl}`
-    if (error) {
-      msg = typeof error === 'string' ? error : error.message
-    }
-
-    if (msg) {
-      console.warn(msg)
-    }
+    console.warn(`Failed to fetch resource: ${resourceUrl}`, error)
   }
 
   cache[cacheKey] = dataURL
