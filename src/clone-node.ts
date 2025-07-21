@@ -196,6 +196,10 @@ function decorate<T extends HTMLElement>(
     clonePseudoElements(nativeNode, clonedNode, options)
     cloneInputValue(nativeNode, clonedNode)
     cloneSelectValue(nativeNode, clonedNode)
+
+    options.ignoredAttributes?.forEach((attr) =>
+      clonedNode.removeAttribute(attr),
+    )
   }
 
   return clonedNode

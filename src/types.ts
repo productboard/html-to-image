@@ -106,4 +106,9 @@ export interface Options {
    * Called when a source svg used for rasterization is created.
    */
   onSourceDataUrlDone?: (sourceDataUrl: string) => void
+
+  /**
+   * Attributes to skip when cloning the source DOM.
+   */
+  ignoredAttributes?: string[]
 }
