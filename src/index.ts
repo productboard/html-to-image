@@ -1,4 +1,3 @@
-import { Options } from './types'
 import { cloneNode } from './clone-node'
 import { embedImages } from './embed-images'
 import { applyStyle } from './apply-style'
@@ -35,33 +34,41 @@ export async function toCanvas<T extends HTMLElement>(
   node: T,
   options: Options = {},
 ): Promise<HTMLCanvasElement> {
-  const { width, height } = getImageSize(node, options)
-  const svg = await toSvg(node, options)
-  const img = await createImage(svg)
+  let renderPasses = getNumberOfRequiredRenderPasses()
 
-  const canvas = document.createElement('canvas')
-  const context = canvas.getContext('2d')!
-  const ratio = options.pixelRatio || getPixelRatio()
-  const canvasWidth = options.canvasWidth || width
-  const canvasHeight = options.canvasHeight || height
+  while (renderPasses--) {
+    const { width, height } = getImageSize(node, options)
+    const svg = await toSvg(node, options)
+    const img = await createImage(svg)
 
-  canvas.width = canvasWidth * ratio
-  canvas.height = canvasHeight * ratio
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')!
+    const ratio = options.pixelRatio || getPixelRatio()
+    const canvasWidth = options.canvasWidth || width
+    const canvasHeight = options.canvasHeight || height
 
-  if (!options.skipAutoScale) {
-    checkCanvasDimensions(canvas)
+    canvas.width = canvasWidth * ratio
+    canvas.height = canvasHeight * ratio
+
+    if (!options.skipAutoScale) {
+      checkCanvasDimensions(canvas)
+    }
+    canvas.style.width = `${canvasWidth}`
+    canvas.style.height = `${canvasHeight}`
+
+    if (options.backgroundColor) {
+      context.fillStyle = options.backgroundColor
+      context.fillRect(0, 0, canvas.width, canvas.height)
+    }
+
+    context.drawImage(img, 0, 0, canvas.width, canvas.height)
+
+    if (renderPasses === 0) {
+      return canvas
+    }
   }
-  canvas.style.width = `${canvasWidth}`
-  canvas.style.height = `${canvasHeight}`
 
-  if (options.backgroundColor) {
-    context.fillStyle = options.backgroundColor
-    context.fillRect(0, 0, canvas.width, canvas.height)
-  }
-
-  context.drawImage(img, 0, 0, canvas.width, canvas.height)
-
-  return canvas
+  throw new Error('Render pass count must be greater than 0')
 }
 
 export async function toPixelData<T extends HTMLElement>(
@@ -104,4 +111,11 @@ export async function getFontEmbedCSS<T extends HTMLElement>(
   options: Options = {},
 ): Promise<string> {
   return getWebFontCSS(node, options)
+}
+
+function getNumberOfRequiredRenderPasses(): number {
+  const { userAgent } = navigator
+  const isSafari = userAgent.includes('Safari') && !userAgent.includes('Chrome')
+
+  return isSafari ? 2 : 1
 }
