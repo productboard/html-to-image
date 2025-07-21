@@ -1,3 +1,4 @@
+import { getMaxCanvasResolution } from './max-canvas-resolution'
 import type { Options } from './types'
 
 export function resolveUrl(url: string, baseUrl: string | null): string {
@@ -126,31 +127,16 @@ export function getPixelRatio() {
 }
 
 // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas#maximum_canvas_size
-const canvasDimensionLimit = 16384
+const canvasMaxResolution = getMaxCanvasResolution()
 
 export function checkCanvasDimensions(canvas: HTMLCanvasElement) {
-  if (
-    canvas.width > canvasDimensionLimit ||
-    canvas.height > canvasDimensionLimit
-  ) {
-    if (
-      canvas.width > canvasDimensionLimit &&
-      canvas.height > canvasDimensionLimit
-    ) {
-      if (canvas.width > canvas.height) {
-        canvas.height *= canvasDimensionLimit / canvas.width
-        canvas.width = canvasDimensionLimit
-      } else {
-        canvas.width *= canvasDimensionLimit / canvas.height
-        canvas.height = canvasDimensionLimit
-      }
-    } else if (canvas.width > canvasDimensionLimit) {
-      canvas.height *= canvasDimensionLimit / canvas.width
-      canvas.width = canvasDimensionLimit
-    } else {
-      canvas.width *= canvasDimensionLimit / canvas.height
-      canvas.height = canvasDimensionLimit
-    }
+  const { maxArea } = canvasMaxResolution
+  const currentArea = canvas.width * canvas.height
+
+  if (currentArea > maxArea) {
+    const scaleFactor = Math.sqrt(maxArea / currentArea)
+    canvas.width *= scaleFactor
+    canvas.height *= scaleFactor
   }
 }
 

@@ -3,6 +3,7 @@ import { cloneNode } from './clone-node'
 import { embedImages } from './embed-images'
 import { applyStyle } from './apply-style'
 import { embedWebFonts, getWebFontCSS } from './embed-webfonts'
+import type { Options } from './types'
 import {
   getImageSize,
   getPixelRatio,
@@ -11,6 +12,9 @@ import {
   nodeToDataURL,
   checkCanvasDimensions,
 } from './util'
+
+export type { Options }
+export { fitsMaxRenderableResolution } from './max-canvas-resolution'
 
 export async function toSvg<T extends HTMLElement>(
   node: T,
