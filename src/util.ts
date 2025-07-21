@@ -65,20 +65,16 @@ export function toArray<T>(arrayLike: any): T[] {
   return arr
 }
 
-let styleProps: string[] | null = null
+const allStyleProperties: string[] = toArray(
+  window.getComputedStyle(document.documentElement),
+)
+
 export function getStyleProperties(options: Options = {}): string[] {
-  if (styleProps) {
-    return styleProps
-  }
-
   if (options.includeStyleProperties) {
-    styleProps = options.includeStyleProperties
-    return styleProps
+    return options.includeStyleProperties
   }
 
-  styleProps = toArray(window.getComputedStyle(document.documentElement))
-
-  return styleProps
+  return allStyleProperties
 }
 
 function px(node: HTMLElement, styleProperty: string) {
