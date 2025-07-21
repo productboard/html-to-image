@@ -128,6 +128,14 @@ async function getCSSRules(
                         : sheet.cssRules.length,
                     )
                   } catch (error) {
+                    if (
+                      (error as Error)?.message.includes(
+                        'Failed to parse the rule',
+                      )
+                    ) {
+                      return
+                    }
+
                     console.error('Error inserting rule from remote css', {
                       rule,
                       error,
