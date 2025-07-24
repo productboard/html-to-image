@@ -126,11 +126,8 @@ export function getPixelRatio() {
   return ratio || window.devicePixelRatio || 1
 }
 
-// @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas#maximum_canvas_size
-const canvasMaxResolution = getMaxCanvasResolution()
-
 export function checkCanvasDimensions(canvas: HTMLCanvasElement) {
-  const { maxArea } = canvasMaxResolution
+  const { maxArea } = getMaxCanvasResolution()
   const currentArea = canvas.width * canvas.height
 
   if (currentArea > maxArea) {
