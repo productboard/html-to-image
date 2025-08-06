@@ -127,14 +127,36 @@ export function getPixelRatio() {
 }
 
 export function checkCanvasDimensions(canvas: HTMLCanvasElement) {
-  const { maxArea } = getMaxCanvasResolution()
-  const currentArea = canvas.width * canvas.height
+  const { maxArea, maxWidth, maxHeight } = getMaxCanvasResolution()
 
+  let width = canvas.width
+  let height = canvas.height
+  const currentArea = width * height
+
+  // Check if we need to scale down due to area constraint
   if (currentArea > maxArea) {
-    const scaleFactor = Math.sqrt(maxArea / currentArea)
-    canvas.width *= scaleFactor
-    canvas.height *= scaleFactor
+    const areaScaleFactor = Math.sqrt(maxArea / currentArea)
+    width *= areaScaleFactor
+    height *= areaScaleFactor
   }
+
+  // Check if we need to scale down due to width constraint
+  if (width > maxWidth) {
+    const widthScaleFactor = maxWidth / width
+    width *= widthScaleFactor
+    height *= widthScaleFactor
+  }
+
+  // Check if we need to scale down due to height constraint
+  if (height > maxHeight) {
+    const heightScaleFactor = maxHeight / height
+    width *= heightScaleFactor
+    height *= heightScaleFactor
+  }
+
+  // Apply the final dimensions
+  canvas.width = Math.floor(width)
+  canvas.height = Math.floor(height)
 }
 
 export function canvasToBlob(

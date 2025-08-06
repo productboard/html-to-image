@@ -122,8 +122,12 @@ function getSamplePixelFromCanvasOfSize(
   if (!ctx) return new Uint8ClampedArray([0, 0, 0, 0])
 
   // Try to draw something and read it back
-  ctx.fillStyle = '#ff0000'
-  ctx.fillRect(0, 0, 1, 1)
+  try {
+    ctx.fillStyle = '#ff0000'
+    ctx.fillRect(0, 0, 1, 1)
+  } catch {
+    return new Uint8ClampedArray([0, 0, 0, 0])
+  }
 
   const imageData = ctx.getImageData(0, 0, 1, 1)
 
