@@ -36,22 +36,7 @@ export function getMaxCanvasResolution(): CanvasMaxResolution {
     Math.min(maxWidth, maxHeight),
   )
 
-  // Try to find the absolute maximum area with brute force optimization
-  let maxArea = 0
-
-  // Test various width/height combinations near the limits
-  for (
-    let w = Math.floor(maxWidth * 0.8);
-    w <= maxWidth;
-    w += Math.floor(maxWidth * 0.02)
-  ) {
-    const maxH = binarySearchMax((h) => canSupport(w, h), 1, maxHeight)
-    const area = w * maxH
-
-    if (area > maxArea) {
-      maxArea = area
-    }
-  }
+  const maxArea = maxSquare * maxSquare
 
   return (result = {
     maxWidth,
